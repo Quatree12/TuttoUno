@@ -1,30 +1,5 @@
 name: Déployer TuttoUno! sur GitHub Pages
 
-# ===========================================================================
-# Ce workflow construit l'application (transformation du JSX en JavaScript
-# lisible par le navigateur) puis publie le résultat sur GitHub Pages.
-#
-# POURQUOI IL EST NÉCESSAIRE
-# --------------------------
-# GitHub Pages ne sait servir que des fichiers statiques. Or un projet React
-# doit être « buildé » avant d'être utilisable. Ce workflow s'en charge sur
-# les serveurs de GitHub, gratuitement, sans rien installer sur ton iPhone.
-#
-# C'est aussi ce qui te permet de modifier un fichier depuis GitHub sur iPhone
-# et de voir la nouvelle version en ligne une minute plus tard : chaque
-# modification sur `main` déclenche un nouveau déploiement.
-#
-# ACTIVATION — UNE SEULE FOIS
-# ---------------------------
-# Settings → Pages → Source → « GitHub Actions ».
-#
-# LE NOM DU DÉPÔT
-# ---------------
-# Ce dépôt s'appelle « TuttoUno ». La variable VITE_BASE ci-dessous vaut donc
-# "/TuttoUno/". Si tu renommes le dépôt, remplace les DEUX occurrences : ici,
-# et la valeur par défaut de vite.config.js.
-# ===========================================================================
-
 on:
   push:
     branches: [main]
@@ -49,11 +24,10 @@ jobs:
       - name: Installer Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
 
       - name: Installer les dépendances
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Construire l'application
         env:
