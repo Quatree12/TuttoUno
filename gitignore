@@ -1,0 +1,42 @@
+# ---------------------------------------------------------------------------
+# Dépendances
+# ---------------------------------------------------------------------------
+node_modules/
+.pnpm-store/
+
+# ---------------------------------------------------------------------------
+# Secrets — NE JAMAIS COMMITER
+# ---------------------------------------------------------------------------
+.env
+.env.local
+.env.*.local
+
+# Le .env.example est volontairement committé (sans identifiants réels).
+!.env.example
+
+# ---------------------------------------------------------------------------
+# Build de production — reconstruit par GitHub Actions
+# ---------------------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+
+# ---------------------------------------------------------------------------
+# Outils et éditeurs
+# ---------------------------------------------------------------------------
+.vite/
+.cache/
+.eslintcache
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Données locales et documents personnels
+# ---------------------------------------------------------------------------
+# Ne place jamais de CV, lettre de motivation ou document réel dans le dépôt.
+# Le stockage privé se fait dans Supabase Storage, jamais dans Git.
