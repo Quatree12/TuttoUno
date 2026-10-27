@@ -1,0 +1,209 @@
+# ===========================================================================
+# TuttoUno! — État réel des fonctionnalités
+# ===========================================================================
+#
+# Ce fichier est la référence honnête du projet. Il décrit ce qui marche,
+# ce qui est préparé mais non branché, et ce qui n'existe pas.
+#
+# Dernière mise à jour : 27 octobre 2026
+# ===========================================================================
+
+
+# ---------------------------------------------------------------------------
+# A. INTERFACE — « FONCTIONNEL » SIGNIFIE QUE C'EST UTILISABLE MAINTENANT
+# ---------------------------------------------------------------------------
+
+Tableau de bord
+  Message d'accueil personnalisé ............ FONCTIONNEL
+    → Utilise le prénom saisi dans le Profil. Sans prénom, un lien invite à en
+      ajouter un. Le message varie selon l'heure.
+
+  Nombre de candidatures en cours ............ FONCTIONNEL
+    → Filtré sur les six statuts actifs. Valeur calculée, jamais fixe.
+
+  Nombre d'entretiens prévus ................. FONCTIONNEL
+    → Statuts « Entretien » et « Deuxième entretien » uniquement.
+
+  Nombre de réponses reçues .................. FONCTIONNEL
+    → Statuts entretien, deuxième entretien, offre, refusée.
+
+  Prochaines échéances (3 premières) ......... FONCTIONNEL
+  Candidatures récemment ajoutées (3) ........ FONCTIONNEL
+  Progression générale ....................... FONCTIONNEL
+    → Part des candidatures ayant reçu une réponse, avec valeur accessible.
+
+  Encouragement discret ...................... FONCTIONNEL
+  Raccourcis vers les actions principales .... FONCTIONNEL
+
+
+Candidatures
+  Ajouter .................................... FONCTIONNEL
+  Modifier ................................... FONCTIONNEL
+  Consulter le détail ........................ FONCTIONNEL
+  Supprimer avec confirmation ................ FONCTIONNEL
+    → Modale nommant l'élément. Aucune suppression directe.
+    → Les documents rattachés sont détachés, jamais supprimés en silence.
+
+  Rechercher (entreprise, poste, lieu) ....... FONCTIONNEL
+  Filtrer par statut ......................... FONCTIONNEL
+  Trier par date ou échéance ................. FONCTIONNEL
+    → Quatre ordres. Les candidatures sans échéance passent en dernier.
+
+  Champs du formulaire ....................... FONCTIONNEL
+    → Entreprise*, poste*, localité, date de candidature*, date de relance,
+      statut, lien, notes, date du dernier suivi.
+    → * = obligatoire. Validation avec message sous le champ concerné.
+
+  Les neuf statuts ........................... FONCTIONNEL
+    → À préparer, À envoyer, Envoyée, En attente, Entretien, Deuxième
+      entretien, Offre reçue, Refusée, Clôturée.
+
+  Cartes sur mobile, vue dense sur écran large  FONCTIONNEL
+
+
+Documents
+  Classement par catégorie ................... FONCTIONNEL
+    → CV, lettre, certificat, diplôme, attestation, autre.
+
+  Nom, catégorie, date d'ajout, description .. FONCTIONNEL
+  Rattachement à une candidature ............. FONCTIONNEL
+  Distinction métadonnées / fichier réel ..... FONCTIONNEL
+    → Badge « Métadonnées », ligne « Fichier : aucun fichier joint »,
+      bandeau explicatif en tête d'écran.
+
+  Ajouter / modifier / supprimer ............. FONCTIONNEL
+  Filtre par catégorie + recherche ........... FONCTIONNEL
+
+  Téléversement de fichier ................... NON IMPLÉMENTÉ
+    → Volontairement absent. Aucun bouton grisé pour faire semblant.
+
+
+Échéances
+  Prochaines relances ........................ FONCTIONNEL
+  Entretiens ................................. FONCTIONNEL
+  Dates limites .............................. FONCTIONNEL
+  Actions en retard .......................... FONCTIONNEL
+  Échéances à venir .......................... FONCTIONNEL
+    → Trois sections : En retard, Aujourd'hui, À venir.
+
+  Indicateurs visuels ........................ FONCTIONNEL
+    → Couleur + libellé, jamais la couleur seule.
+
+  Marquer une action comme terminée .......... FONCTIONNEL
+    → Réversible. Une échéance terminée quitte la liste active.
+
+  Notifications push / rappels automatiques .. NON IMPLÉMENTÉ
+    → Aucun service de notification branché.
+
+
+Profil et paramètres
+  Prénom affiché ............................. FONCTIONNEL
+  Préférence d'affichage dense ............... FONCTIONNEL
+  État de connexion au backend ............... FONCTIONNEL
+    → Trois états : mode démonstration, configuration invalide, backend
+      configuré. Détection des valeurs d'exemple laissées telles quelles.
+
+  État de synchronisation .................... FONCTIONNEL (affiche la vérité)
+    → « Dernière synchronisation : Jamais » tant que rien n'est branché.
+
+  État du stockage des documents ............. FONCTIONNEL (affiche la vérité)
+  Informations de confidentialité ............ FONCTIONNEL
+  Fonctionnalités restant à configurer ....... FONCTIONNEL
+  Espace local utilisé ....................... FONCTIONNEL
+  Recharger les données de démonstration ..... FONCTIONNEL (avec confirmation)
+  Tout effacer ............................... FONCTIONNEL (avec confirmation)
+
+
+# ---------------------------------------------------------------------------
+# B. STRUCTURE DES DONNÉES
+# ---------------------------------------------------------------------------
+
+Persistance locale (localStorage) ........... FONCTIONNEL
+  Clé ........................................ tuttouno.v1.state
+  Versionnage ................................ version: 1
+  Écriture ................................... automatique à chaque modification
+  Échec d'écriture ........................... détecté et annoncé par un
+                                               bandeau rouge en tête d'écran
+
+  ⚠️ LIMITES À CONNAÎTRE
+    - Ce n'est pas une sauvegarde cloud. Rien n'est envoyé sur Internet.
+    - Vider les données de site de Safari efface tout.
+    - Navigation privée : rien n'est conservé.
+    - Changer de navigateur ou de téléphone ne transfère rien.
+    - iOS peut purger le stockage d'un site peu visité.
+    - La plupart des navigateurs plafonnent autour de 5 Mo par origine.
+
+
+# ---------------------------------------------------------------------------
+# C. BACKEND SUPABASE — PRÉPARÉ, NON CONNECTÉ
+# ---------------------------------------------------------------------------
+
+Réalité actuelle :
+  src/supabase.js crée un client si les variables d'environnement sont
+  renseignées. AUCUN écran n'appelle ce client. L'application écrit toujours
+  dans localStorage. Rien ne part vers Supabase. Rien n'en revient.
+
+  Conséquence : même avec un .env correctement rempli, le Profil affiche
+  « Dernière synchronisation : Jamais ». C'est la vérité.
+
+Table profiles .............................. PRÉPARÉE, NON CONNECTÉE
+Table applications .......................... PRÉPARÉE, NON CONNECTÉE
+Table documents ............................. PRÉPARÉE, NON CONNECTÉE
+Table deadlines ............................. PRÉPARÉE, NON CONNECTÉE
+
+Authentification par e-mail ................. PRÉPARÉE, NON CONNECTÉE
+Bucket privé « documents » .................. PRÉPARÉ, NON UTILISÉ
+  → public = false, quatre politiques.
+  → Convention de chemin : <user_id>/<nom-de-fichier>.
+
+Politiques RLS .............................. PRÊTES À EXÉCUTER
+  → 3 politiques sur profiles, 4 sur les trois autres tables.
+  → Vérification par jointure dans documents.
+  → Deux requêtes de contrôle en fin de schema.sql.
+
+
+# ---------------------------------------------------------------------------
+# D. HÉBERGEMENT
+# ---------------------------------------------------------------------------
+
+Dépôt GitHub ................................ CRÉÉ (Quatree12/TuttoUno)
+GitHub Pages ................................ NON ACTIVÉ
+Publication de l'application ................ NON EFFECTUÉE
+  → Aucun abonnement souscrit, aucune carte bancaire demandée.
+
+
+# ---------------------------------------------------------------------------
+# E. CE QUI RESTE À FAIRE — DANS L'ORDRE
+# ---------------------------------------------------------------------------
+
+1. Activer GitHub Pages : Settings → Pages → Source → « GitHub Actions ».
+2. Créer le projet Supabase gratuit.
+3. Exécuter supabase/schema.sql dans l'éditeur SQL.
+4. Vérifier RLS et le bucket avec les requêtes de contrôle.
+5. Créer ton compte utilisateur dans Authentication → Users.
+6. Brancher l'authentification e-mail.
+7. Remplacer les lectures localStorage par des appels aux tables.
+8. Implémenter le téléversement réel.
+9. Envisager les rappels.
+
+
+# ---------------------------------------------------------------------------
+# F. CE QUI N'A PAS ÉTÉ TESTÉ
+# ---------------------------------------------------------------------------
+#
+# Aucune exécution réelle n'a eu lieu : pas de navigateur, pas de build
+# possible ici. La vérification s'est limitée à une analyse syntaxique des
+# fichiers (équilibrage des délimiteurs, absence de doublon de fonction,
+# cohérence des classes CSS, variables de design définies).
+#
+# Ce qui reste à tester par toi, après déploiement :
+#
+#   ?  Chargement initial réel de la page.
+#   ?  Navigation réelle entre les cinq onglets.
+#   ?  Rendu visuel exact sur iPhone XR (polices, encoches, zone sûre).
+#   ?  Comportement du clavier iOS sur les champs de date.
+#   ?  Absence de débordement horizontal sur toutes les largeurs.
+#   ?  Persistance effective après fermeture complète de Safari.
+#   ?  Comportement en navigation privée.
+#
+# ---------------------------------------------------------------------------
