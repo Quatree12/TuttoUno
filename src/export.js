@@ -8,7 +8,8 @@
 // nulle part ailleurs. Vider les données de site, changer de téléphone ou
 // naviguer en privé les efface définitivement, sans recours.
 //
-// Cet export est la seule copie qui survit à ces situations.
+// Cet export est la seule copie qui survit à ces situations. C'est donc le
+// fichier le plus important du projet après l'application elle-même.
 //
 // CE QU'IL CONTIENT
 //   • tes candidatures et leurs notes
@@ -22,7 +23,9 @@
 // SÉPARATION VOLONTAIRE
 // ---------------------
 // Ce module ne connaît ni React, ni l'interface. Ce sont des fonctions pures :
-// elles reçoivent un objet, elles en retournent un autre.
+// elles reçoivent un objet, elles en retournent un autre. C'est ce qui les rend
+// relisibles et faciles à vérifier, contrairement à du code noyé dans un
+// composant de 3 000 lignes.
 // ===========================================================================
 
 /**
